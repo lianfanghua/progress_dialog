@@ -4,7 +4,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 //import '../../lib/progress_dialog.dart';
 
-ProgressDialog pr;
+late ProgressDialog pr;
 
 void main() {
   runApp(MaterialApp(
@@ -13,10 +13,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  double percentage = 0.0;
-
   @override
   Widget build(BuildContext context) {
+    double percentage = 0.0;
+
 //    pr = new ProgressDialog(context,
 //        type: ProgressDialogType.Normal, isDismissible: false);
 //    pr = new ProgressDialog(context, type: ProgressDialogType.Download);
@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
 
     pr.style(
 //      message: 'Downloading file...',
-      message:
-          'Lets dump some huge text into the progress dialog and check whether it can handle the huge text. If it works then not you or me, flutter is awesome',
+      message: 'Lets dump some huge text into the progress dialog and check whether it can handle the huge text. If it works then not you or me, flutter is awesome',
       borderRadius: 10.0,
       backgroundColor: Colors.white,
       elevation: 10.0,
@@ -44,20 +43,18 @@ class MyApp extends StatelessWidget {
       progress: 0.0,
       progressWidgetAlignment: Alignment.center,
       maxProgress: 100.0,
-      progressTextStyle: TextStyle(
-          color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-      messageTextStyle: TextStyle(
-          color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
+      progressTextStyle: TextStyle(color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+      messageTextStyle: TextStyle(color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
     );
 
     return Scaffold(
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
             child: Text(
               'Show Dialog',
               style: TextStyle(color: Colors.white),
             ),
-            color: Colors.blue,
+            style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blue)),
             onPressed: () async {
               await pr.show();
 
@@ -68,24 +65,15 @@ class MyApp extends StatelessWidget {
                 pr.update(
                   progress: percentage,
                   message: "Please wait...",
-                  progressWidget: Container(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator()),
+                  progressWidget: Container(padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
                   maxProgress: 100.0,
-                  progressTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w400),
-                  messageTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 19.0,
-                      fontWeight: FontWeight.w600),
+                  progressTextStyle: TextStyle(color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+                  messageTextStyle: TextStyle(color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
                 );
 
                 Future.delayed(Duration(seconds: 2)).then((value) {
                   percentage = percentage + 30.0;
-                  pr.update(
-                      progress: percentage, message: "Few more seconds...");
+                  pr.update(progress: percentage, message: "Few more seconds...");
                   print(percentage);
                   Future.delayed(Duration(seconds: 2)).then((value) {
                     percentage = percentage + 30.0;
@@ -122,7 +110,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  ProgressDialog pr;
+  late ProgressDialog pr;
 
   @override
   Widget build(BuildContext context) {
@@ -131,16 +119,14 @@ class _FirstScreenState extends State<FirstScreen> {
 
     return Scaffold(
       body: Center(
-        child: RaisedButton(
-          child: Text('Show dialog and go to next screen',
-              style: TextStyle(color: Colors.white)),
-          color: Colors.blueAccent,
+        child: ElevatedButton(
+          child: Text('Show dialog and go to next screen', style: TextStyle(color: Colors.white)),
+          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.blueAccent)),
           onPressed: () {
             pr.show();
             Future.delayed(Duration(seconds: 3)).then((value) {
               pr.hide().whenComplete(() {
-                Navigator.of(context).push(CupertinoPageRoute(
-                    builder: (BuildContext context) => SecondScreen()));
+                Navigator.of(context).push(CupertinoPageRoute(builder: (BuildContext context) => SecondScreen()));
               });
             });
           },
